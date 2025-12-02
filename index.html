@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="colorpicker, color palettes, color theory, UI design, UX design, brand styleguide">
+
+    <meta name="apple-mobile-web-app-title" content="Koilors" />
+    <meta property="og:title" content="Koilors">
+    <meta property="og:description" content="Making colors easy for everyone!">
+    <meta property="og:site_name" content="Koilors">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="http://koilors.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="http://koilors.github.io/assets/thumbnail.png">
+
+    <title>Koilors</title>
+
+    <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel='stylesheet'
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="core/core.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="app.js" type="module"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <h3>Koilors</h3>
+        <small>Colors made easy!</small>
+        <select name="cssColorSpace" id="cssColorSpace" value="hex">
+            <optgroup label="Working Space">
+                <option value="oklab">Oklab</option>
+                <option value="oklch">Oklch</option>
+                <option value="hex">Hex (sRGB)</option>
+                <option value="srgb">sRGB</option>
+                <!-- <option value="hsv">HSV (sRGB)</option> -->
+                <option value="hsl">HSL (sRGB)</option>
+                <option value="hwb">HWB (sRGB)</option>
+                <option value="lab">Lab</option>
+                <option value="lch">Lch</option>
+                <option value="p3">Display P3</option>
+                <option value="rec2020">Rec.2020</option>
+            </optgroup>
+        </select>
+        <!-- <span id="saveButton"><span class="material-symbols-rounded" translate="no">save</span></span> -->
+        <span id="daynightButton"><span id="daynightSymbol" class="material-symbols-rounded"
+                translate="no">dark_mode</span></span>
+    </header>
+
+    <main>
+
+        <section>
+
+            <details id="baseColorPanel" open>
+                <summary>
+                    Base Color
+                </summary>
+                <form onsubmit="return false;">
+                    <input id="base_color" name="base_color" type="text">
+                    <label for="hue_text">Hue</label>
+                    <select name="hueMode" id="hueMode">
+                        <optgroup label="Hue Mode">
+                            <option value="hsv">Saturation/Value</option>
+                            <option value="hsl">Lightness/Chromacity</option>
+                        </optgroup>
+                    </select>
+                    <button type="button" class="transparent" onclick="randomizeColor()"><span
+                            class="material-symbols-rounded" translate="no">casino</span></button><br>
+                    <div class="slider">
+                        <div id="hueRange">
+                            <input type="range" id="hue_range" name="hue_range" min="0" max="360" value="264">
+                        </div>
+                        <input type="number" id="hue_text" name="hue_text" min="0" max="360" value="264">
+                    </div>
+                    <label for="saturation_text">Saturation</label>
+                    <div class="slider">
+                        <div id="saturationRange">
+                            <input type="range" id="saturation_range" name="saturation_range" min="0" max="100"
+                                value="100">
+                        </div>
+                        <input type="number" id="saturation_text" name="saturation_text" min="0" max="100" value="100">
+                    </div>
+                    <label for="value_text">Value</label>
+                    <div class="slider">
+                        <div id="valueRange">
+                            <input type="range" id="value_range" name="value_range" min="0" max="100" value="100">
+                        </div>
+                        <input type="number" id="value_text" name="value_text" min="0" max="100" value="100">
+                    </div>
+                    <label for="lightness_text">Lightness</label>
+                    <div class="slider">
+                        <div id="lightnessRange">
+                            <input type="range" id="lightness_range" name="lightness_range" min="0" max="100"
+                                value="43">
+                        </div>
+                        <input type="number" id="lightness_text" name="lightness_text" min="0" max="100" value="43">
+                    </div>
+                    <label for="chromacity_text">Chromacity</label>
+                    <div class="slider">
+                        <div id="chromacityRange">
+                            <input type="range" id="chromacity_range" name="chromacity_range" min="0" max="100"
+                                value="43">
+                        </div>
+                        <input type="number" id="chromacity_text" name="chromacity_text" min="0" max="100" value="43">
+                    </div>
+                </form>
+            </details>
+        </section>
+
+        <div id="paletteContainer">
+        </div>
+
+        <section>
+
+            <form onsubmit="return false;">
+                <div class="genericSlider">
+                    <label for="steps_text">Size</label>
+                    <input type="range" id="steps_range" name="steps_range" min="3" max="11" value="5">
+                    <input type="number" id="steps_text" name="steps_text" min="3" max="11" value="5">
+                </div>
+                <label>Hue Range</label>
+                <select name="preset" id="preset">
+                    <option value="">---</option>
+                    <optgroup label="Color Harmony Preset">
+                        <option value="mono">Monochromatic</option>
+                        <option value="comp">Complementary</option>
+                        <option value="anal">Analogous</option>
+                        <option value="split">Split Complementary</option>
+                        <option value="tri">Triadic</option>
+                        <option value="square">Square</option>
+                        <option value="tetral">Tetradic Left</option>
+                        <option value="tetrar">Tetradic Right</option>
+                        <option value="cmpd">Compound</option>
+                        <!-- <option value="poly">Polychromatic</option> -->
+                    </optgroup>
+                </select>
+                <button type="button" class="transparent" onclick="randomizeAngles()"><span
+                        class="material-symbols-rounded" translate="no">casino</span></button><br>
+                <div class="genericSlider">
+                    <input type="range" id="start_range" name="start_range" min="-180" max="180" value="30">
+                    <input type="number" id="start_text" name="start_text" min="-180" max="180" value="30">
+                </div>
+                <div class="genericSlider">
+                    <input type="range" id="end_range" name="end_range" min="-180" max="180" value="30">
+                    <input type="number" id="end_text" name="end_text" min="-180" max="180" value="30">
+                </div>
+                <label for="sl_text">Lightness Range</label>
+                <button type="button" class="transparent" onclick="randomizeLightnessRange()"><span
+                        class="material-symbols-rounded" translate="no">casino</span></button><br>
+                <div class="slider">
+                    <div id="slRange">
+                        <input type="range" id="sl_range" name="sl_range" min="0" max="100" value="10">
+                    </div>
+                    <input type="number" id="sl_text" name="sl_text" min="0" max="100" value="10">
+                </div>
+                <div class="slider">
+                    <div id="elRange">
+                        <input type="range" id="el_range" name="el_range" min="0" max="100" value="90">
+                    </div>
+                    <input type="number" id="el_text" name="el_text" min="0" max="100" value="90">
+                </div>
+            </form>
+
+        </section>
+
+        <section>
+
+            <details>
+                <summary>Export to CSS</summary>
+                <form onsubmit="return false;">
+                    <label for="css_chromacity_text">Chromacity</label>
+                    <div class="slider">
+                        <div id="cssChromacityRange">
+                            <input type="range" id="css_chromacity_range" name="css_chromacity_range" min="0" max="100"
+                                value="43">
+                        </div>
+                        <input type="number" id="css_chromacity_text" name="css_chromacity_text" min="0" max="100"
+                            value="43">
+                    </div>
+                </form>
+                <details open>
+                    <summary>Preview Color Roles</summary>
+                    <div class="chips">
+                        <div style="background-color: var(--accent); color: var(--on-accent);"
+                            onclick="selectBackgroundColor(event)">Accent</div>
+                        <div style="background-color: var(--on-accent); color: var(--accent);"
+                            onclick="selectBackgroundColor(event)">On Accent</div>
+                        <div style="background-color: var(--accent-container); color: var(--on-accent-container);"
+                            onclick="selectBackgroundColor(event)">Accent Container</div>
+                        <div style="background-color: var(--on-accent-container); color: var(--accent-container);"
+                            onclick="selectBackgroundColor(event)">On Accent Container</div>
+                        <div style="background-color: var(--inverse-accent); color: var(--accent);"
+                            onclick="selectBackgroundColor(event)">Inverse Accent</div>
+                        <div style="background-color: var(--surface); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface</div>
+                        <div style="background-color: var(--on-surface); color: var(--surface);"
+                            onclick="selectBackgroundColor(event)">On Surface</div>
+                        <div style="background-color: var(--surface-dim); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Dim</div>
+                        <div style="background-color: var(--surface-bright); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Bright</div>
+                        <div style="background-color: var(--surface-variant); color: var(--on-surface-variant);"
+                            onclick="selectBackgroundColor(event)">Surface Variant</div>
+                        <div style="background-color: var(--on-surface-variant); color: var(--surface-variant);"
+                            onclick="selectBackgroundColor(event)">On Surface Variant</div>
+                        <div style="background-color: var(--surface-container-highest); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container Highest</div>
+                        <div style="background-color: var(--surface-container-high); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container High</div>
+                        <div style="background-color: var(--surface-container); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container</div>
+                        <div style="background-color: var(--surface-container-low); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container Low</div>
+                        <div style="background-color: var(--surface-container-lowest); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container Lowest</div>
+                        <div style="background-color: var(--inverse-surface); color: var(--inverse-on-surface);"
+                            onclick="selectBackgroundColor(event)">Inverse Surface</div>
+                        <div style="background-color: var(--inverse-on-surface); color: var(--inverse-surface);"
+                            onclick="selectBackgroundColor(event)">Inverse On Surface</div>
+                        <div style="background-color: var(--outline); color: var(--on-surface); border-color: var(--outline-variant)"
+                            onclick="selectBackgroundColor(event)">Outline</div>
+                        <div style="background-color: var(--outline-variant); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Outline Variant</div>
+                    </div>
+                </details>
+                <p><strong>Generated Colors</strong></p>
+                <div class="code">
+                    <code id="colors-css"></code>
+                    <div onclick="copyFrom('colors-css', 'Copied CSS!')">
+                        <span class="material-symbols-rounded" translate="no"
+                            title="Copy to clipboard">content_copy</span>
+                        <p>Copy to clipboard</p>
+                    </div>
+                    <div onclick="downloadFromElement('colors.css', 'colors-css')">
+                        <span class="material-symbols-rounded" translate="no" title="Copy to clipboard">download</span>
+                        <p>Download CSS file</p>
+                    </div>
+                </div>
+                <p><strong>Color Roles</strong></p>
+                <p>Use the following CSS properties to correctly apply the colors generated above.</p>
+                <p>The color roles are slightly based from <a href="https://m3.material.io/" target="_blank">Material
+                        Design</a> color system. <a href="https://m3.material.io/styles/color/roles"
+                        target="_blank">Click
+                        here to read more</a>.</p>
+                <p>Color roles are defined for both light mode and dark mode. This website uses this exact color roles.
+                </p>
+                <div class="code">
+                    <code id="roles-css"></code>
+                    <div onclick="toggleAdaptiveCss()">
+                        <span id="adaptiveToggleIcon" class="material-symbols-rounded" translate="no"
+                            title="Toggle adaptive day/night mode">content_copy</span>
+                        <p>Toggle adaptive day/night mode</p>
+                    </div>
+                    <div onclick="copyFrom('roles-css', 'Copied CSS!')">
+                        <span class="material-symbols-rounded" translate="no"
+                            title="Copy to clipboard">content_copy</span>
+                        <p>Copy to clipboard</p>
+                    </div>
+                    <div onclick="downloadRoles()">
+                        <span class="material-symbols-rounded" translate="no" title="Copy to clipboard">download</span>
+                        <p>Download CSS file</p>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+    </main>
+
+    <footer>
+        <section>
+            <section id="socials">
+                <a href="https://patreon.com/DesertHareStudios" target="_blank" title="Patreon">
+                    <svg viewBox="0 0 24 24">
+                        <use xlink:href="assets/socials.svg#patreon"></use>
+                    </svg>
+                </a>
+                <a href="https://github.com/Koilors" target="_blank" title="GitHub">
+                    <svg viewBox="0 0 24 24">
+                        <use xlink:href="assets/socials.svg#github"></use>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/koilors.io/" target="_blank" title="Instagram">
+                    <svg viewBox="0 0 24 24">
+                        <use xlink:href="assets/socials.svg#instagram"></use>
+                    </svg>
+                </a>
+                <a href="https://x.com/Koilors_io" target="_blank" title="X (Formerly Twitter)">
+                    <svg viewBox="0 0 24 24">
+                        <use xlink:href="assets/socials.svg#x"></use>
+                    </svg>
+                </a>
+            </section>
+            <section>© 2025 <a href="https://desertharestudios.github.io/" target="_blank">Desert Hare Studios</a> | <a
+                    target="_blank" href="https://github.com/Koilors">View on GitHub</a> | <a target="_blank"
+                    href="https://thewildsushii.github.io/Koilors/">Koilors Legacy</a></section>
+        </section>
+    </footer>
+
+    <div id="snackbar"></div>
+
+    <dialog id="selectedColorDialog" closedby="any">
+        <div class="dialogContent">
+            <div id="selectedColorPreview"></div>
+            <p><b id="selectedColorCSS"></b>
+                <button type="button" class="transparent" onclick="copyFrom('selectedColorCSS')"><span
+                        class="material-symbols-rounded" translate="no">content_copy</span></button>
+            </p>
+            <p>Hue: <b id="selectedColorHue"></b></p>
+            <p>Saturation: <b id="selectedColorSaturation"></b></p>
+            <p>Value: <b id="selectedColorValue"></b></p>
+            <p>Lightness: <b id="selectedColorLightness"></b></p>
+            <p>Chromacity: <b id="selectedColorChromacity"></b></p>
+            <button type="reset" onclick="closeSelectedColor();">Close</button>
+        </div>
+    </dialog>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("sw.js");
+        }
+    </script>
+
+</body>
+
+</html>

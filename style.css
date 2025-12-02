@@ -1,0 +1,640 @@
+:root {
+    accent-color: var(--accent);
+    --type-scale: calc(5/4);
+}
+
+:root,
+:root.dark {
+    --surface: var(--P6, #0b0b0b);
+    --surface-dim: var(--P6, #0b0b0b);
+    --surface-bright: var(--P24, #373737);
+    --on-surface: var(--P90, #e2e2e2);
+    --surface-variant: var(--P30, #464646);
+    --on-surface-variant: var(--P80, #c7c7c7);
+    --surface-container-highest: var(--P22, #333333);
+    --surface-container-high: var(--P17, #272727);
+    --surface-container: var(--P12, #1b1b1b);
+    --surface-container-low: var(--P10, #161616);
+    --surface-container-lowest: var(--P4, #060606);
+    --inverse-surface: var(--P90, #e2e2e2);
+    --inverse-on-surface: var(--P20, #2e2e2e);
+    --outline: var(--P60, #919191);
+    --outline-variant: var(--P30, #464646);
+
+    --accent: var(--A80, var(--P80, #c7c7c7));
+    --inverse-accent: var(--A40, var(--P40, #5e5e5e));
+    --on-accent: var(--A20, var(--P20, #2e2e2e));
+    --accent-container: var(--A30, var(--P30, #464646));
+    --on-accent-container: var(--A90, var(--P90, #e2e2e2));
+
+    color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --surface: var(--P98, #f9f9f9);
+        --surface-dim: var(--P87, #dadada);
+        --surface-bright: var(--P98, #f9f9f9);
+        --on-surface: var(--P10, #161616);
+        --surface-variant: var(--P90, #e2e2e2);
+        --on-surface-variant: var(--P30, #464646);
+        --surface-container-highest: var(--P90, #e2e2e2);
+        --surface-container-high: var(--P92, #e8e8e8);
+        --surface-container: var(--P94, #eeeeee);
+        --surface-container-low: var(--P96, #f4f4f4);
+        --surface-container-lowest: var(--P100, #ffffff);
+        --inverse-surface: var(--P20, #2e2e2e);
+        --inverse-on-surface: var(--P95, #f1f1f1);
+        --outline: var(--P50, #777777);
+        --outline-variant: var(--P80, #c7c7c7);
+
+        --accent: var(--A40, var(--P40, #5e5e5e));
+        --inverse-accent: var(--A80, var(--P80, #c7c7c7));
+        --on-accent: var(--A100, var(--P100, #ffffff));
+        --accent-container: var(--A90, var(--P90, #e2e2e2));
+        --on-accent-container: var(--A10, var(--P10, #161616));
+
+        color-scheme: light;
+    }
+}
+
+:root.light {
+    --surface: var(--P98, #f9f9f9);
+    --surface-dim: var(--P87, #dadada);
+    --surface-bright: var(--P98, #f9f9f9);
+    --on-surface: var(--P10, #161616);
+    --surface-variant: var(--P90, #e2e2e2);
+    --on-surface-variant: var(--P30, #464646);
+    --surface-container-highest: var(--P90, #e2e2e2);
+    --surface-container-high: var(--P92, #e8e8e8);
+    --surface-container: var(--P94, #eeeeee);
+    --surface-container-low: var(--P96, #f4f4f4);
+    --surface-container-lowest: var(--P100, #ffffff);
+    --inverse-surface: var(--P20, #2e2e2e);
+    --inverse-on-surface: var(--P95, #f1f1f1);
+    --outline: var(--P50, #777777);
+    --outline-variant: var(--P80, #c7c7c7);
+
+    --accent: var(--A40, var(--P40, #5e5e5e));
+    --inverse-accent: var(--A80, var(--P80, #c7c7c7));
+    --on-accent: var(--A100, var(--P100, #ffffff));
+    --accent-container: var(--A90, var(--P90, #e2e2e2));
+    --on-accent-container: var(--A10, var(--P10, #161616));
+
+    color-scheme: light;
+}
+
+body {
+    font-family: "Lexend", sans-serif;
+}
+
+header {
+    position: sticky;
+    display: flex;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 56px;
+    padding: 8px 16px;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--surface-container-highest);
+    margin: 0px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: baseline;
+    z-index: 20;
+}
+
+header>* {
+    margin: 0px;
+}
+
+header>h3 {
+    color: var(--accent);
+    font-weight: 400;
+}
+
+header>small {
+    flex-grow: 1;
+}
+
+header>span {
+    cursor: pointer;
+    padding: 8px 10px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    user-select: none;
+    vertical-align: middle;
+}
+
+header>span:hover {
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+}
+
+header>span:hover>span {
+    font-variation-settings:
+        'FILL' 1;
+}
+
+header>select {
+    align-self: center;
+    margin: 0px;
+}
+
+main>section {
+    display: block;
+    margin: 16px auto;
+    max-width: 1024px;
+}
+
+details {
+    background-color: var(--surface-container);
+    border-radius: 8px;
+    margin: 8px;
+}
+
+summary {
+    background-color: var(--surface-container-high);
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+details>details {
+    background-color: var(--surface-container-high);
+}
+
+details>details>summary {
+    background-color: var(--surface-container-highest);
+}
+
+details>form {
+    padding: 16px;
+}
+
+details>p {
+    margin: 1rem 16px;
+}
+
+#base_color {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin: 8px 0px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    background-color: var(--baseColor, oklab(50.957% -0.03071 -0.27309));
+    color: var(--onBaseColor, oklab(100% -0.0009 -0.00797));
+    font-family: "Noto Sans Mono", monospace;
+}
+
+.slider {
+    margin: 16px;
+    height: 24px;
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+.slider>div {
+    border-color: var(--outline);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 0px;
+    height: 24px;
+    flex-grow: 1;
+}
+
+.slider>input {
+    flex-basis: 48px;
+    width: 48px;
+}
+
+.slider input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    width: calc(100% + 24px);
+    height: 100%;
+    margin: 0px -12px;
+    accent-color: var(--baseColor, oklab(50.957% -0.03071 -0.27309));
+}
+
+.slider input[type="range"]::-webkit-slider-thumb {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 32px;
+    background-color: var(--baseColor, oklab(50.957% -0.03071 -0.27309));
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--onBaseColor);
+}
+
+.slider input[type="range"]::-moz-range-thumb {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    background-color: var(--baseColor, oklab(50.957% -0.03071 -0.27309));
+    border-radius: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--onBaseColor);
+}
+
+input[type="text"],
+input[type="number"] {
+    border-color: var(--outline);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 2px 4px;
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+}
+
+input[type="number"] {
+    font-family: "Noto Sans Mono", monospace;
+}
+
+#hueRange {
+    background: linear-gradient(to right,
+            var(--R, oklab(64.77% 0.26257 0)),
+            var(--YR, oklab(66.305% 0.18373 0.13349)),
+            var(--Y, oklab(79.723% 0.05275 0.16235)),
+            var(--GY, oklab(95.587% -0.06369 0.19601)),
+            var(--G, oklab(86.807% -0.22768 0.16542)),
+            var(--BG, oklab(89.596% -0.16255 0)),
+            var(--B, oklab(81.792% -0.11752 -0.08538)),
+            var(--PB, oklab(64.773% -0.05989 -0.18433)),
+            var(--P, oklab(51.168% 0.09054 -0.27867)),
+            var(--RP, oklab(67.243% 0.25562 -0.18572)),
+            var(--R, oklab(64.77% 0.26257 0)));
+}
+
+#saturationRange {
+    background: linear-gradient(to right,
+            var(--s0, oklab(100% -0.0009 -0.00797)),
+            var(--s50, oklab(83.823% 0.01927 0.17136)),
+            var(--s100, oklab(50.957% -0.03071 -0.27309)));
+}
+
+#valueRange {
+    background: linear-gradient(to right,
+            var(--v0, oklab(0% -0.00465 -0.04134)),
+            var(--v50, oklab(31.086% -0.01874 -0.16659)),
+            var(--v100, oklab(50.957% -0.03071 -0.27309)));
+}
+
+#lightnessRange,
+#slRange,
+#elRange {
+    background: linear-gradient(to right,
+            var(--l0, oklab(0% -0.00465 -0.04134)),
+            var(--l25, oklab(34.773% -0.02094 -0.18618)),
+            var(--l50, oklab(56.884% -0.02649 -0.23556)),
+            var(--l75, oklab(78.508% -0.01213 -0.10781)),
+            var(--l100, oklab(100% -0.0009 -0.00797)));
+}
+
+#chromacityRange,
+#cssChromacityRange {
+    background: linear-gradient(to right,
+            var(--c0, oklch(50.749% 0.00181 263.66)),
+            var(--c25, oklch(50.749% 0.04664 263.59)),
+            var(--c50, oklch(50.749% 0.09654 263.58)),
+            var(--c75, oklch(50.749% 0.15006 263.58)),
+            var(--c100, oklch(50.749% 0.2709 263.58)));
+}
+
+select {
+    padding: 8px 4px;
+    margin: 8px;
+    border-radius: 32px;
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+}
+
+.genericSlider {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0px;
+    padding: 0px 16px 0px 0px;
+}
+
+.genericSlider input {
+    flex-basis: 48px;
+    width: 48px;
+}
+
+.genericSlider input[type="range"] {
+    flex-grow: 1;
+}
+
+#paletteContainer {
+    display: flex;
+    height: 144pt;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px;
+    margin: 0.5rem;
+}
+
+#paletteContainer div {
+    flex-grow: 1;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: oklab(50% 0 0);
+    cursor: pointer;
+}
+
+section {
+    padding: 0.5rem 8px;
+}
+
+button.transparent {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    user-select: none;
+    vertical-align: middle;
+}
+
+button.transparent:hover {
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+}
+
+button.transparent:hover>span {
+    font-variation-settings:
+        'FILL' 1;
+}
+
+button.transparent>span {
+    vertical-align: middle;
+}
+
+.chips {
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.chips>* {
+    padding: 8px 16px;
+    border-radius: 32px;
+    border-color: var(--outline);
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+}
+
+.code {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+    display: flex;
+    margin: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: flex-start;
+    gap: 8px;
+}
+
+code {
+    font-family: 'Noto Sans Mono', monospace;
+}
+
+.code>code {
+    background-color: var(--surface-container-lowest);
+    color: var(--on-surface);
+    flex-basis: 100%;
+    flex-grow: 1;
+    max-height: 320px;
+    overflow-y: auto;
+    margin: 0px !important;
+    padding: 8px;
+    border-radius: 4px;
+    white-space: pre;
+    scrollbar-width: thin;
+}
+
+.code>div {
+    display: flex;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: var(--surface-container-low);
+    color: var(--accent);
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.code>div>* {
+    margin: 0px;
+}
+
+.code>div:hover,
+.code>div:active {
+    background-color: var(--accent);
+    color: var(--on-accent);
+}
+
+.code>div:hover span,
+.code>div:active span {
+    font-variation-settings: 'FILL' 1;
+}
+
+.fill {
+    font-variation-settings: 'FILL' 1;
+}
+
+footer {
+    padding: 2rem 8px;
+    background-color: var(--surface-container-lowest);
+    font-size: 0.8em;
+}
+
+footer>section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0px auto;
+    max-width: 768px;
+    gap: 16px;
+}
+
+footer>section>* {
+    flex-grow: 2;
+    flex-basis: 256px;
+    text-align: center;
+}
+
+footer a {
+    color: var(--on-surface);
+}
+
+footer a:hover {
+    color: var(--accent);
+}
+
+#socials {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#socials a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+}
+
+#socials svg {
+    width: 100;
+    height: 100%;
+}
+
+#socials a:hover {
+    text-decoration: none;
+}
+
+#snackbar {
+    display: block;
+    position: fixed;
+    bottom: -128px;
+    right: 8px;
+    padding: 1rem 8px;
+    border-radius: 4px;
+    background-color: var(--inverse-surface);
+    color: var(--inverse-on-surface);
+    box-sizing: border-box;
+    transition: bottom 200ms ease 0s;
+}
+
+#snackbar.active {
+    bottom: 8px;
+}
+
+dialog {
+    background-color: var(--surface-container-highest);
+    color: var(--on-surface);
+    border-color: var(--outline);
+    padding: 0px;
+    border-width: 1px;
+    border-radius: 4px;
+    z-index: 15;
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(16px);
+    background-color: color(from var(--surface) xyz x y z / 0.5);
+    z-index: 10;
+}
+
+dialog, dialog * {
+    scrollbar-width: thin;
+}
+
+.dialogContent {
+    padding: 4px;
+    width: min(768px, 86vw);
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    z-index: 19;
+}
+
+#selectedColorPreview {
+    height: 72px;
+    border-radius: 4px;
+    border-color: #777777;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.dialogContent p {
+    text-align: center;
+}
+
+.dialogContent b {
+    font-family: "Noto Sans Mono", monospace;
+    padding: 4px 8px;
+    border-radius: 2px;
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+}
+
+.dialogContent > button {
+    font-size: 1rem;
+    padding: 8px 16px;
+    margin: 8px;
+    font-family: "Lexend", sans-serif;
+    border-radius: 8px;
+    border-style: solid;
+    border-color: var(--outline);
+    background-color: var(--inverse-surface);
+    color: var(--inverse-on-surface);
+}
+
+.dialogContent > button:hover,
+.dialogContent > button:active {
+    border-color: var(--outline-variant);
+    background-color: var(--accent-container);
+    color: var(--on-accent-container);
+}
+
+@media only screen and (max-width: 768px) {
+
+    header>small {
+        display: none;
+    }
+
+
+    header>select {
+        flex-grow: 1;
+    }
+
+    #snackbar {
+        right: 8px;
+        left: 8px;
+        width: calc(100vw - 16px);
+    }
+}
