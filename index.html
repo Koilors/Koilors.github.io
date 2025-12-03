@@ -60,9 +60,9 @@
                 <option value="rec2020">Rec.2020</option>
             </optgroup>
         </select>
-        <!-- <span id="saveButton"><span class="material-symbols-rounded" translate="no">save</span></span> -->
-        <span id="daynightButton"><span id="daynightSymbol" class="material-symbols-rounded"
-                translate="no">dark_mode</span></span>
+        <!-- <button role="button" id="saveButton"><span class="material-symbols-rounded" translate="no">save</span></button> -->
+        <button role="button" id="daynightButton"><span id="daynightSymbol" class="material-symbols-rounded"
+                translate="no">dark_mode</span></button>
     </header>
 
     <main>
@@ -131,10 +131,17 @@
         <section>
 
             <form onsubmit="return false;">
-                <div class="genericSlider">
-                    <label for="steps_text">Size</label>
-                    <input type="range" id="steps_range" name="steps_range" min="3" max="11" value="5">
-                    <input type="number" id="steps_text" name="steps_text" min="3" max="11" value="5">
+                <div class="inline-flex">
+                    <label for="steps">Size</label>
+                    <div class="incremental">
+                        <button type="button" onclick="decreaseSteps()">
+                            -
+                        </button>
+                        <input type="number" id="steps" name="steps" min="3" max="11" value="5">
+                        <button type="button" onclick="increaseSteps()">
+                            +
+                        </button>
+                    </div>
                 </div>
                 <label>Hue Range</label>
                 <select name="preset" id="preset">
@@ -154,12 +161,16 @@
                 </select>
                 <button type="button" class="transparent" onclick="randomizeAngles()"><span
                         class="material-symbols-rounded" translate="no">casino</span></button><br>
-                <div class="genericSlider">
-                    <input type="range" id="start_range" name="start_range" min="-180" max="180" value="30">
+                <div class="slider">
+                    <div id="hueSRange">
+                        <input type="range" id="start_range" name="start_range" min="-180" max="180" value="30">
+                    </div>
                     <input type="number" id="start_text" name="start_text" min="-180" max="180" value="30">
                 </div>
-                <div class="genericSlider">
-                    <input type="range" id="end_range" name="end_range" min="-180" max="180" value="30">
+                <div class="slider">
+                    <div id="hueERange">
+                        <input type="range" id="end_range" name="end_range" min="-180" max="180" value="30">
+                    </div>
                     <input type="number" id="end_text" name="end_text" min="-180" max="180" value="30">
                 </div>
                 <label for="sl_text">Lightness Range</label>
@@ -244,15 +255,15 @@
                 <p><strong>Generated Colors</strong></p>
                 <div class="code">
                     <code id="colors-css"></code>
-                    <div onclick="copyFrom('colors-css', 'Copied CSS!')">
+                    <button role="button" onclick="copyFrom('colors-css', 'Copied CSS!')">
                         <span class="material-symbols-rounded" translate="no"
                             title="Copy to clipboard">content_copy</span>
                         <p>Copy to clipboard</p>
-                    </div>
-                    <div onclick="downloadFromElement('colors.css', 'colors-css')">
+                    </button>
+                    <button role="button" onclick="downloadFromElement('colors.css', 'colors-css')">
                         <span class="material-symbols-rounded" translate="no" title="Copy to clipboard">download</span>
                         <p>Download CSS file</p>
-                    </div>
+                    </button>
                 </div>
                 <p><strong>Color Roles</strong></p>
                 <p>Use the following CSS properties to correctly apply the colors generated above.</p>
@@ -264,20 +275,20 @@
                 </p>
                 <div class="code">
                     <code id="roles-css"></code>
-                    <div onclick="toggleAdaptiveCss()">
+                    <button role="button" onclick="toggleAdaptiveCss()">
                         <span id="adaptiveToggleIcon" class="material-symbols-rounded" translate="no"
                             title="Toggle adaptive day/night mode">content_copy</span>
                         <p>Toggle adaptive day/night mode</p>
-                    </div>
-                    <div onclick="copyFrom('roles-css', 'Copied CSS!')">
+                    </button>
+                    <button role="button" onclick="copyFrom('roles-css', 'Copied CSS!')">
                         <span class="material-symbols-rounded" translate="no"
                             title="Copy to clipboard">content_copy</span>
                         <p>Copy to clipboard</p>
-                    </div>
-                    <div onclick="downloadRoles()">
+                    </button>
+                    <button role="button" onclick="downloadRoles()">
                         <span class="material-symbols-rounded" translate="no" title="Copy to clipboard">download</span>
                         <p>Download CSS file</p>
-                    </div>
+                    </button>
                 </div>
             </details>
         </section>
@@ -309,8 +320,8 @@
                 </a>
             </section>
             <section>© 2025 <a href="https://desertharestudios.github.io/" target="_blank">Desert Hare Studios</a> | <a
-                    target="_blank" href="https://github.com/Koilors/Koilors.github.io">View on GitHub</a> | <a target="_blank"
-                    href="https://thewildsushii.github.io/Koilors/">Koilors Legacy</a></section>
+                    target="_blank" href="https://github.com/Koilors/Koilors.github.io">View on GitHub</a> | <a
+                    target="_blank" href="https://thewildsushii.github.io/Koilors/">Koilors Legacy</a></section>
         </section>
     </footer>
 
@@ -319,15 +330,14 @@
     <dialog id="selectedColorDialog" closedby="any">
         <div class="dialogContent">
             <div id="selectedColorPreview"></div>
-            <p><b id="selectedColorCSS"></b>
+            <div class="colorCode"><b id="selectedColorCSS"></b>
                 <button type="button" class="transparent" onclick="copyFrom('selectedColorCSS')"><span
                         class="material-symbols-rounded" translate="no">content_copy</span></button>
-            </p>
-            <p>Hue: <b id="selectedColorHue"></b></p>
-            <p>Saturation: <b id="selectedColorSaturation"></b></p>
-            <p>Value: <b id="selectedColorValue"></b></p>
-            <p>Lightness: <b id="selectedColorLightness"></b></p>
-            <p>Chromacity: <b id="selectedColorChromacity"></b></p>
+            </div>
+            <div class="colorCode"><b id="selectedColorHex"></b>
+                <button type="button" class="transparent" onclick="copyFrom('selectedColorHex')"><span
+                        class="material-symbols-rounded" translate="no">content_copy</span></button>
+            </div>
             <button type="reset" onclick="closeSelectedColor();">Close</button>
         </div>
     </dialog>

@@ -121,21 +121,23 @@ header>small {
     flex-grow: 1;
 }
 
-header>span {
+header>button {
     cursor: pointer;
     padding: 8px 10px;
     aspect-ratio: 1;
+    border: none;
     border-radius: 50%;
     user-select: none;
     vertical-align: middle;
+    background-color: transparent;
 }
 
-header>span:hover {
+header>button:hover {
     background-color: var(--surface-variant);
     color: var(--on-surface-variant);
 }
 
-header>span:hover>span {
+header>button:hover>span {
     font-variation-settings:
         'FILL' 1;
 }
@@ -284,6 +286,36 @@ input[type="number"] {
             var(--R, oklab(64.77% 0.26257 0)));
 }
 
+#hueSRange {
+    background: linear-gradient(to right,
+            var(--ho50),
+            var(--ho40),
+            var(--ho30),
+            var(--ho20),
+            var(--ho10),
+            var(--ho0),
+            var(--ho-10),
+            var(--ho-20),
+            var(--ho-30),
+            var(--ho-40),
+            var(--ho-50));
+}
+
+#hueERange {
+    background: linear-gradient(to right,
+            var(--ho-50),
+            var(--ho-40),
+            var(--ho-30),
+            var(--ho-20),
+            var(--ho-10),
+            var(--ho0),
+            var(--ho10),
+            var(--ho20),
+            var(--ho30),
+            var(--ho40),
+            var(--ho50));
+}
+
 #saturationRange {
     background: linear-gradient(to right,
             var(--s0, oklab(100% -0.0009 -0.00797)),
@@ -393,6 +425,65 @@ button.transparent>span {
     vertical-align: middle;
 }
 
+.inline-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: 16px;
+    margin: 8px 0px;
+}
+
+.incremental {
+    display: flex;
+    gap: 4px;
+    height: 32px;
+    width: 128px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    color: var(--on-surface-variant);
+    background-color: var(--surface-variant);
+    outline: var(--outline-variant);
+    border-radius: 24px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+}
+
+.incremental button {
+    flex-grow: 1;
+    box-sizing: border-box;
+    font-weight: 700;
+    background-color: transparent;
+    border: none;
+    height: 32px;
+    font-family: "Noto Sans Mono", monospace;
+    color: var(--on-surface-variant);
+}
+
+.incremental button:hover,
+.incremental button:active {
+    color: var(--surface-variant);
+    background-color: var(--on-surface-variant);
+}
+
+.incremental input {
+    flex-grow: 2;
+    text-align: center;
+    background: none;
+    border: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.incremental input[type="number"]::-webkit-outer-spin-button,
+.incremental input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .chips {
     display: flex;
     padding: 16px;
@@ -445,9 +536,10 @@ code {
     scrollbar-width: thin;
 }
 
-.code>div {
+.code>button {
     display: flex;
     padding: 8px 16px;
+    border: none;
     border-radius: 4px;
     background-color: var(--surface-container-low);
     color: var(--accent);
@@ -460,18 +552,18 @@ code {
     cursor: pointer;
 }
 
-.code>div>* {
+.code>button>* {
     margin: 0px;
 }
 
-.code>div:hover,
-.code>div:active {
+.code>button:hover,
+.code>button:active {
     background-color: var(--accent);
     color: var(--on-accent);
 }
 
-.code>div:hover span,
-.code>div:active span {
+.code>button:hover span,
+.code>button:active span {
     font-variation-settings: 'FILL' 1;
 }
 
@@ -561,18 +653,18 @@ dialog {
 }
 
 dialog::backdrop {
-    backdrop-filter: blur(16px);
-    background-color: color(from var(--surface) xyz x y z / 0.5);
+    background-color: color(from var(--surface) xyz x y z / 0.2);
     z-index: 10;
 }
 
-dialog, dialog * {
+dialog,
+dialog * {
     scrollbar-width: thin;
 }
 
 .dialogContent {
     padding: 4px;
-    width: min(768px, 86vw);
+    width: min(540px, 75vw);
     display: flex;
     gap: 4px;
     flex-direction: column;
@@ -584,25 +676,31 @@ dialog, dialog * {
 
 #selectedColorPreview {
     height: 72px;
-    border-radius: 4px;
+    border-radius: 8px;
     border-color: #777777;
-    border-width: 1px;
+    border-width: 2px;
     border-style: solid;
+    box-sizing: border-box;
 }
 
-.dialogContent p {
-    text-align: center;
+.dialogContent .colorCode {
+    display: flex;
+    gap: 8px;
+    padding: 4px 8px;
+    margin: 8px;
+    border-radius: 4px;
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+    align-items: center;
+
 }
 
 .dialogContent b {
     font-family: "Noto Sans Mono", monospace;
-    padding: 4px 8px;
-    border-radius: 2px;
-    background-color: var(--surface-variant);
-    color: var(--on-surface-variant);
+    flex-grow: 1;
 }
 
-.dialogContent > button {
+.dialogContent>button {
     font-size: 1rem;
     padding: 8px 16px;
     margin: 8px;
@@ -614,8 +712,8 @@ dialog, dialog * {
     color: var(--inverse-on-surface);
 }
 
-.dialogContent > button:hover,
-.dialogContent > button:active {
+.dialogContent>button:hover,
+.dialogContent>button:active {
     border-color: var(--outline-variant);
     background-color: var(--accent-container);
     color: var(--on-accent-container);

@@ -1,4 +1,4 @@
-const VERSION_NAME = "1.0.1b1";
+const VERSION_NAME = "1.0.2b1";
 
 const CACHE_NAME = `koilors-${VERSION_NAME}`;
 

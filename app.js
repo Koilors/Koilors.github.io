@@ -2,6 +2,20 @@ import { Koilors } from "./koilors.js";
 import { LiveData } from "./core/livedata.js";
 import { Slider } from "./core/slider.js";
 
+function loopDegrees(x) {
+    if (x > 360) {
+        return loopDegrees(x - 360.0);
+    }
+    if (x < 0.0) {
+        return loopDegrees(x + 360.0);
+    }
+    return x;
+}
+
+function clamp(x, min, max) {
+    return Math.min(Math.max(x, min), max);
+}
+
 const baseColor = new LiveData(Koilors.fromCSS("#0046ff"));
 const hueMode = new LiveData("hsv");
 const steps = new LiveData(5);
@@ -27,7 +41,6 @@ const slSlider = new Slider("sl_range", "sl_text");
 const elSlider = new Slider("el_range", "el_text");
 const startSlider = new Slider("start_range", "start_text");
 const endSlider = new Slider("end_range", "end_text");
-const stepsSlider = new Slider("steps_range", "steps_text");
 
 var cssInput = document.getElementById("base_color");
 var cssColorSpace = document.getElementById("cssColorSpace");
@@ -39,14 +52,11 @@ var cssCodeContainer = document.getElementById("colors-css");
 var rolesContainer = document.getElementById("roles-css");
 var toggleAdaptiveIcon = document.getElementById("adaptiveToggleIcon");
 var snackbar = document.getElementById("snackbar");
+var stepsText = document.getElementById("steps");
 
 var selectedColorPreview = document.getElementById("selectedColorPreview");
 var selectedColorCSS = document.getElementById("selectedColorCSS");
-var selectedColorHue = document.getElementById("selectedColorHue");
-var selectedColorSaturation = document.getElementById("selectedColorSaturation");
-var selectedColorValue = document.getElementById("selectedColorValue");
-var selectedColorLightness = document.getElementById("selectedColorLightness");
-var selectedColorChromacity = document.getElementById("selectedColorChromacity");
+var selectedColorHex = document.getElementById("selectedColorHex");
 
 var rolesCssFilename = "roles.css";
 var overrideHash = true;
@@ -69,16 +79,6 @@ function removeChilds(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.lastChild);
     }
-}
-
-function loopDegrees(x) {
-    if (x > 360) {
-        return loopDegrees(x - 360.0);
-    }
-    if (x < 0.0) {
-        return loopDegrees(x + 360.0);
-    }
-    return x;
 }
 
 function updateHueModeCSS(okhsv, okhsl) {
@@ -147,6 +147,18 @@ function updateCSS() {
         Koilors.setColor("--c50", Koilors.fromOkhsl(okhsl.h, 0.50, okhsl.l));
         Koilors.setColor("--c75", Koilors.fromOkhsl(okhsl.h, 0.75, okhsl.l));
         Koilors.setColor("--c100", Koilors.fromOkhsl(okhsl.h, 1.0, okhsl.l));
+
+        Koilors.setColor("--ho0", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 0.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho10", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 1.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho20", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 2.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho30", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 3.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho40", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 4.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho50", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 5.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho-10", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -1.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho-20", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -2.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho-30", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -3.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho-40", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -4.0)), okhsv.s, okhsv.v));
+        Koilors.setColor("--ho-50", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -5.0)), okhsv.s, okhsv.v));
 
         let normalizedChromacity = cssChroma.value / 100.0;
 
@@ -462,7 +474,7 @@ function onHueModeChanged() {
 hueMode.listen(onHueModeChanged)
 
 function OnStepsChanged(value) {
-    stepsSlider.value = value;
+    stepsText.value = value;
     updateHash();
     updatePalette();
 }
@@ -688,10 +700,6 @@ elSlider.addListener(function (e) {
     endL.value = Number(e.target.value);
 });
 
-stepsSlider.addListener(function (e) {
-    steps.value = Number(e.target.value);
-});
-
 startSlider.addListener(function (e) {
     startAngle.value = Number(e.target.value);
 });
@@ -702,6 +710,10 @@ endSlider.addListener(function (e) {
 
 daynightButton.addEventListener("pointerdown", (e) => {
     toggleDaynight();
+});
+
+addChangeListener(stepsText, function(e) {
+    steps.value = clamp(Number(stepsText.value), 3, 11);
 });
 
 colorScheme.addEventListener("change", function (e) {
@@ -753,21 +765,19 @@ colorScheme.addEventListener("change", function (e) {
 });
 
 var selectedDialog = document.getElementById("selectedColorDialog");
+var ignoreSelectedColorDialog = true;
 selectedColor.listen((color) => {
-    selectedDialog.showModal();
-
     selectedColorPreview.style.backgroundColor = color.displayColor();
     selectedColorCSS.innerText = colorToString(color, workingSpace.value);
-    let okhsv = color.okhsv;
-    let okhsl = color.okhsl;
-    selectedColorHue.innerText = Math.round(okhsv.h);
-    selectedColorSaturation.innerText = Math.round(okhsv.s * 100.0);
-    selectedColorValue.innerText = Math.round(okhsv.v * 100.0);
-    selectedColorLightness.innerText = Math.round(okhsl.l * 100.0);
-    selectedColorChromacity.innerText = Math.round(okhsl.s * 100.0);
+    selectedColorHex.innerText = colorToString(color, workingSpace.value == "hex" ? "srgb" : "hex");
+
+    if(ignoreSelectedColorDialog) {
+        ignoreSelectedColorDialog = false;
+        return;
+    }
+    selectedDialog.showModal();
 
 });
-selectedDialog.close();
 
 window.closeSelectedColor = function () {
     selectedDialog.close();
@@ -785,4 +795,16 @@ window.downloadRoles = function () {
 }
 window.toggleAdaptiveCss = function () {
     adaptiveCss.value = !adaptiveCss.value;
+};
+
+window.increaseSteps = function() {
+    if(steps.value < 11) {
+        steps.value = steps.value + 1;
+    }
+};
+
+window.decreaseSteps = function() {
+    if(steps.value > 3) {
+        steps.value = steps.value - 1;
+    }
 };
