@@ -3,13 +3,10 @@ import { LiveData } from "./core/livedata.js";
 import { Slider } from "./core/slider.js";
 
 function loopDegrees(x) {
-    if (x > 360) {
-        return loopDegrees(x - 360.0);
-    }
     if (x < 0.0) {
         return loopDegrees(x + 360.0);
     }
-    return x;
+    return x % 360.0;
 }
 
 function clamp(x, min, max) {
@@ -114,16 +111,18 @@ function updateCSS() {
     }
     isUpdatingCSS = true;
     setTimeout(function () {
-        let okhsv = {
-            h: baseColor.value.okhsv.h,
-            s: baseColor.value.okhsv.s,
-            v: baseColor.value.okhsv.v
-        };
-        let okhsl = {
-            h: baseColor.value.okhsl.h,
-            s: baseColor.value.okhsl.s,
-            l: baseColor.value.okhsl.l
-        };
+        // let okhsv = {
+        //     h: baseColor.value.okhsv.h,
+        //     s: baseColor.value.okhsv.s,
+        //     v: baseColor.value.okhsv.v
+        // };
+        // let okhsl = {
+        //     h: baseColor.value.okhsl.h,
+        //     s: baseColor.value.okhsl.s,
+        //     l: baseColor.value.okhsl.l
+        // };
+        let okhsv = baseColor.value.okhsv;
+        let okhsl = baseColor.value.okhsl;
         Koilors.setColor("--baseColor", baseColor.value);
         Koilors.setColor("--onBaseColor", Koilors.fromOkhsl(okhsl.h, okhsl.s, okhsl.l > 0.5 ? 0.0 : 1.0));
 
@@ -132,15 +131,16 @@ function updateCSS() {
         Koilors.setColor("--s0", Koilors.fromOkhsv(okhsv.h, 0.0, okhsv.v));
         Koilors.setColor("--s50", Koilors.fromOkhsv(okhsv.h, 0.5, okhsv.v));
         Koilors.setColor("--s100", Koilors.fromOkhsv(okhsv.h, 1.0, okhsv.v));
+
         Koilors.setColor("--v0", Koilors.fromOkhsv(okhsv.h, okhsv.s, 0.0));
         Koilors.setColor("--v50", Koilors.fromOkhsv(okhsv.h, okhsv.s, 0.5));
         Koilors.setColor("--v100", Koilors.fromOkhsv(okhsv.h, okhsv.s, 1.0));
 
-        Koilors.setColor("--l0", Koilors.fromOkhsl(okhsv.h, okhsv.s, 0.0));
-        Koilors.setColor("--l25", Koilors.fromOkhsl(okhsv.h, okhsv.s, 0.25));
-        Koilors.setColor("--l50", Koilors.fromOkhsl(okhsv.h, okhsv.s, 0.50));
-        Koilors.setColor("--l75", Koilors.fromOkhsl(okhsv.h, okhsv.s, 0.75));
-        Koilors.setColor("--l100", Koilors.fromOkhsl(okhsv.h, okhsv.s, 1.0));
+        Koilors.setColor("--l0", Koilors.fromOkhsl(okhsl.h, okhsl.s, 0.0));
+        Koilors.setColor("--l25", Koilors.fromOkhsl(okhsl.h, okhsl.s, 0.25));
+        Koilors.setColor("--l50", Koilors.fromOkhsl(okhsl.h, okhsl.s, 0.50));
+        Koilors.setColor("--l75", Koilors.fromOkhsl(okhsl.h, okhsl.s, 0.75));
+        Koilors.setColor("--l100", Koilors.fromOkhsl(okhsl.h, okhsl.s, 1.0));
 
         Koilors.setColor("--c0", Koilors.fromOkhsl(okhsl.h, 0.0, okhsl.l));
         Koilors.setColor("--c25", Koilors.fromOkhsl(okhsl.h, 0.25, okhsl.l));
@@ -148,17 +148,32 @@ function updateCSS() {
         Koilors.setColor("--c75", Koilors.fromOkhsl(okhsl.h, 0.75, okhsl.l));
         Koilors.setColor("--c100", Koilors.fromOkhsl(okhsl.h, 1.0, okhsl.l));
 
-        Koilors.setColor("--ho0", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 0.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho10", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 1.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho20", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 2.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho30", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 3.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho40", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 4.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho50", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * 5.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho-10", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -1.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho-20", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -2.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho-30", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -3.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho-40", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -4.0)), okhsv.s, okhsv.v));
-        Koilors.setColor("--ho-50", Koilors.fromOkhsv(loopDegrees(okhsv.h + (36.0 * -5.0)), okhsv.s, okhsv.v));
+        let sl = startL.value / 100.0;
+        let el = endL.value / 100.0;
+
+        Koilors.setColor("--hos0", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * -5.0)), okhsl.s, sl));
+        Koilors.setColor("--hos10", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * -4.0)), okhsl.s, sl));
+        Koilors.setColor("--hos20", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * -3.0)), okhsl.s, sl));
+        Koilors.setColor("--hos30", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * -2.0)), okhsl.s, sl));
+        Koilors.setColor("--hos40", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * -1.0)), okhsl.s, sl));
+        Koilors.setColor("--hos50", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * 0.0)), okhsl.s, sl));
+        Koilors.setColor("--hos60", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * 1.0)), okhsl.s, sl));
+        Koilors.setColor("--hos70", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * 2.0)), okhsl.s, sl));
+        Koilors.setColor("--hos80", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * 3.0)), okhsl.s, sl));
+        Koilors.setColor("--hos90", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * 4.0)), okhsl.s, sl));
+        Koilors.setColor("--hos100", Koilors.fromOkhsl(loopDegrees(okhsl.h - (36.0 * 5.0)), okhsl.s, sl));
+
+        Koilors.setColor("--hoe0", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * -5.0)), okhsl.s, el));
+        Koilors.setColor("--hoe10", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * -4.0)), okhsl.s, el));
+        Koilors.setColor("--hoe20", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * -3.0)), okhsl.s, el));
+        Koilors.setColor("--hoe30", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * -2.0)), okhsl.s, el));
+        Koilors.setColor("--hoe40", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * -1.0)), okhsl.s, el));
+        Koilors.setColor("--hoe50", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * 0.0)), okhsl.s, el));
+        Koilors.setColor("--hoe60", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * 1.0)), okhsl.s, el));
+        Koilors.setColor("--hoe70", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * 2.0)), okhsl.s, el));
+        Koilors.setColor("--hoe80", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * 3.0)), okhsl.s, el));
+        Koilors.setColor("--hoe90", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * 4.0)), okhsl.s, el));
+        Koilors.setColor("--hoe100", Koilors.fromOkhsl(loopDegrees(okhsl.h + (36.0 * 5.0)), okhsl.s, el));
 
         let normalizedChromacity = cssChroma.value / 100.0;
 
@@ -175,6 +190,21 @@ function updateCSS() {
 
         let startColor = Koilors.fromOkhsv(startOkhsv.h, startOkhsv.s, startOkhsv.v);
         let endColor = Koilors.fromOkhsv(endOkhsv.h, endOkhsv.s, endOkhsv.v);
+
+        let startOkhsl = startColor.okhsl;
+        let endOkhsl = endColor.okhsl;
+
+        Koilors.setColor("--sl0", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.0));
+        Koilors.setColor("--sl25", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.25));
+        Koilors.setColor("--sl50", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.50));
+        Koilors.setColor("--sl75", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.75));
+        Koilors.setColor("--sl100", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 1.0));
+
+        Koilors.setColor("--el0", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.0));
+        Koilors.setColor("--el25", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.25));
+        Koilors.setColor("--el50", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.50));
+        Koilors.setColor("--el75", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.75));
+        Koilors.setColor("--el100", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 1.0));
 
         if (endL.value < startL.value) {
             startColor = Koilors.fromOkhsv(endOkhsv.h, endOkhsv.s, endOkhsv.v);
@@ -515,10 +545,11 @@ function randomizeAngles() {
 function randomizeLightnessRange() {
     // startL.value = Math.floor(100.0 * ((Math.random() * Math.random() * Math.random())));
     // endL.value = Math.floor(100.0 * (1.0 - (Math.random() * Math.random() * Math.random())));
-    let baseL = 1.0 - (Math.random() * Math.random());
     let lerp = function (a, b, t) {
         return a * (1.0 - t) + b * t;
     };
+    let baseL = 1.0 - (Math.random() * Math.random());
+    baseL = lerp(baseColor.value.okhsl.l, baseL, Math.random() * Math.random());
     startL.value = Math.round(lerp(baseL, 0.0, Math.random() * Math.random()) * 100.0);
     endL.value = Math.round(lerp(baseL, 1.0, Math.random() * Math.random()) * 100.0);
 }

@@ -288,32 +288,32 @@ input[type="number"] {
 
 #hueSRange {
     background: linear-gradient(to right,
-            var(--ho50),
-            var(--ho40),
-            var(--ho30),
-            var(--ho20),
-            var(--ho10),
-            var(--ho0),
-            var(--ho-10),
-            var(--ho-20),
-            var(--ho-30),
-            var(--ho-40),
-            var(--ho-50));
+            var(--hos0),
+            var(--hos10),
+            var(--hos20),
+            var(--hos30),
+            var(--hos40),
+            var(--hos50),
+            var(--hos60),
+            var(--hos70),
+            var(--hos80),
+            var(--hos90),
+            var(--hos100));
 }
 
 #hueERange {
     background: linear-gradient(to right,
-            var(--ho-50),
-            var(--ho-40),
-            var(--ho-30),
-            var(--ho-20),
-            var(--ho-10),
-            var(--ho0),
-            var(--ho10),
-            var(--ho20),
-            var(--ho30),
-            var(--ho40),
-            var(--ho50));
+            var(--hoe0),
+            var(--hoe10),
+            var(--hoe20),
+            var(--hoe30),
+            var(--hoe40),
+            var(--hoe50),
+            var(--hoe60),
+            var(--hoe70),
+            var(--hoe80),
+            var(--hoe90),
+            var(--hoe100));
 }
 
 #saturationRange {
@@ -330,15 +330,31 @@ input[type="number"] {
             var(--v100, oklab(50.957% -0.03071 -0.27309)));
 }
 
-#lightnessRange,
-#slRange,
-#elRange {
+#lightnessRange {
     background: linear-gradient(to right,
             var(--l0, oklab(0% -0.00465 -0.04134)),
             var(--l25, oklab(34.773% -0.02094 -0.18618)),
             var(--l50, oklab(56.884% -0.02649 -0.23556)),
             var(--l75, oklab(78.508% -0.01213 -0.10781)),
             var(--l100, oklab(100% -0.0009 -0.00797)));
+}
+
+#slRange {
+    background: linear-gradient(to right,
+            var(--sl0, oklab(0% -0.00465 -0.04134)),
+            var(--sl25, oklab(34.773% -0.02094 -0.18618)),
+            var(--sl50, oklab(56.884% -0.02649 -0.23556)),
+            var(--sl75, oklab(78.508% -0.01213 -0.10781)),
+            var(--sl100, oklab(100% -0.0009 -0.00797)));
+}
+
+#elRange {
+    background: linear-gradient(to right,
+            var(--el0, oklab(0% -0.00465 -0.04134)),
+            var(--el25, oklab(34.773% -0.02094 -0.18618)),
+            var(--el50, oklab(56.884% -0.02649 -0.23556)),
+            var(--el75, oklab(78.508% -0.01213 -0.10781)),
+            var(--el100, oklab(100% -0.0009 -0.00797)));
 }
 
 #chromacityRange,
