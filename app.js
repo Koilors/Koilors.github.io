@@ -789,8 +789,7 @@ colorScheme.addEventListener("change", function (e) {
             autoTwoColors(30.0, -150.0);
             break;
         case "poly": //Polychromatic
-            startAngle.value = -170;
-            endAngle.value = -170;
+            autoTwoColors(-171, -171);
             break;
         default:
             return;
