@@ -721,51 +721,76 @@ daynightButton.addEventListener("pointerdown", (e) => {
     toggleDaynight();
 });
 
-addChangeListener(stepsText, function(e) {
+addChangeListener(stepsText, function (e) {
     steps.value = clamp(Number(stepsText.value), 3, 11);
 });
 
 colorScheme.addEventListener("change", function (e) {
+
+    let okhsv = baseColor.value.okhsv;
+    let okhsl = baseColor.value.okhsl;
+
+    let autoTwoColors = function(angleR, angleL) {
+            let splitR = Koilors.fromOkhsv(loopDegrees(okhsv.h + angleR), okhsv.s, okhsv.v);
+            let splitL = Koilors.fromOkhsv(loopDegrees(okhsv.h - angleL), okhsv.s, okhsv.v);
+            let splitRhsl = splitR.okhsl;
+            let splitLhsl = splitL.okhsl;
+            if (splitRhsl.l >= splitLhsl.l) {
+                startAngle.value = angleR;
+                endAngle.value = angleL;
+            } else {
+                startAngle.value = -angleR;
+                endAngle.value = -angleL;
+            }
+    }
+
     switch (e.target.value) {
         case "mono": //Monochromatic
             startAngle.value = 0;
             endAngle.value = 0;
             break;
         case "comp": //Complementary
-            startAngle.value = 180;
-            endAngle.value = 180;
+            let complementary = Koilors.fromOkhsv(loopDegrees(okhsv.h + 180.0), okhsv.s, okhsv.v);
+            let complementaryHSL = complementary.okhsl;
+            if (complementaryHSL.l >= okhsl.l) {
+                startAngle.value = 0;
+                endAngle.value = 180;
+            } else {
+                startAngle.value = 180;
+                endAngle.value = 0;
+            }
             break;
         case "anal": //Analogous
-            startAngle.value = 30;
-            endAngle.value = 30;
+            autoTwoColors(30.0, 30.0);
             break;
         case "split": //Split Complementary
-            startAngle.value = 150;
-            endAngle.value = 150;
+            autoTwoColors(150.0, 150.0);
             break;
         case "tri": //Triadic
-            startAngle.value = 120;
-            endAngle.value = 120;
+            autoTwoColors(120.0, 120.0);
             break;
         case "square": //Square
-            startAngle.value = -90;
-            endAngle.value = -90;
+            autoTwoColors(90.0, 90.0);
+            let sqrComp = Koilors.fromOkhsv(loopDegrees(okhsv.h + 180.0), okhsv.s, okhsv.v);
+            let sqrComphsl = sqrComp.okhsl;
+            if (sqrComphsl.l >= okhsl.l) {
+                endAngle.value = 180;
+            } else {
+                startAngle.value = -180;
+            }
             break;
         case "tetral": //Tetradic Left
-            startAngle.value = 60;
-            endAngle.value = 120;
+            autoTwoColors(60.0, 120.0);
             break;
         case "tetrar": //Tetradic Right
-            startAngle.value = 120;
-            endAngle.value = 60;
+            autoTwoColors(120.0, 60.0);
             break;
         case "cmpd": //Compound
-            startAngle.value = 30;
-            endAngle.value = -150;
+            autoTwoColors(30.0, -150.0);
             break;
         case "poly": //Polychromatic
-            startAngle.value = -180;
-            endAngle.value = -180;
+            startAngle.value = -170;
+            endAngle.value = -170;
             break;
         default:
             return;
@@ -780,7 +805,7 @@ selectedColor.listen((color) => {
     selectedColorCSS.innerText = colorToString(color, workingSpace.value);
     selectedColorHex.innerText = colorToString(color, workingSpace.value == "hex" ? "srgb" : "hex");
 
-    if(ignoreSelectedColorDialog) {
+    if (ignoreSelectedColorDialog) {
         ignoreSelectedColorDialog = false;
         return;
     }
@@ -806,14 +831,14 @@ window.toggleAdaptiveCss = function () {
     adaptiveCss.value = !adaptiveCss.value;
 };
 
-window.increaseSteps = function() {
-    if(steps.value < 11) {
+window.increaseSteps = function () {
+    if (steps.value < 11) {
         steps.value = steps.value + 1;
     }
 };
 
-window.decreaseSteps = function() {
-    if(steps.value > 3) {
+window.decreaseSteps = function () {
+    if (steps.value > 3) {
         steps.value = steps.value - 1;
     }
 };
