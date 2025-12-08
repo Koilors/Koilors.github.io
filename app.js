@@ -111,16 +111,6 @@ function updateCSS() {
     }
     isUpdatingCSS = true;
     setTimeout(function () {
-        // let okhsv = {
-        //     h: baseColor.value.okhsv.h,
-        //     s: baseColor.value.okhsv.s,
-        //     v: baseColor.value.okhsv.v
-        // };
-        // let okhsl = {
-        //     h: baseColor.value.okhsl.h,
-        //     s: baseColor.value.okhsl.s,
-        //     l: baseColor.value.okhsl.l
-        // };
         let okhsv = baseColor.value.okhsv;
         let okhsl = baseColor.value.okhsl;
         Koilors.setColor("--baseColor", baseColor.value);
@@ -191,20 +181,17 @@ function updateCSS() {
         let startColor = Koilors.fromOkhsv(startOkhsv.h, startOkhsv.s, startOkhsv.v);
         let endColor = Koilors.fromOkhsv(endOkhsv.h, endOkhsv.s, endOkhsv.v);
 
-        let startOkhsl = startColor.okhsl;
-        let endOkhsl = endColor.okhsl;
+        Koilors.setColor("--sl0", startColor.getShade(0.0));
+        Koilors.setColor("--sl25", startColor.getShade(0.25));
+        Koilors.setColor("--sl50", startColor.getShade(0.50));
+        Koilors.setColor("--sl75", startColor.getShade(0.75));
+        Koilors.setColor("--sl100", startColor.getShade(1.0));
 
-        Koilors.setColor("--sl0", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.0));
-        Koilors.setColor("--sl25", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.25));
-        Koilors.setColor("--sl50", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.50));
-        Koilors.setColor("--sl75", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 0.75));
-        Koilors.setColor("--sl100", Koilors.fromOkhsl(startOkhsl.h, startOkhsl.s, 1.0));
-
-        Koilors.setColor("--el0", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.0));
-        Koilors.setColor("--el25", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.25));
-        Koilors.setColor("--el50", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.50));
-        Koilors.setColor("--el75", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 0.75));
-        Koilors.setColor("--el100", Koilors.fromOkhsl(endOkhsl.h, endOkhsl.s, 1.0));
+        Koilors.setColor("--el0", endColor.getShade(0.0));
+        Koilors.setColor("--el25", endColor.getShade(0.25));
+        Koilors.setColor("--el50", endColor.getShade(0.50));
+        Koilors.setColor("--el75", endColor.getShade(0.75));
+        Koilors.setColor("--el100", endColor.getShade(1.0));
 
         if (endL.value < startL.value) {
             startColor = Koilors.fromOkhsv(endOkhsv.h, endOkhsv.s, endOkhsv.v);
@@ -275,16 +262,10 @@ function updateCSS() {
 
 function selectBackgroundColor(e) {
     try {
-        // selectedColor.value = new Color(e.target.style.backgroundColor);
-        // console.log(Koilors.fromCSS(e.target.style.backgroundColor));
-        // console.log(colorToString(Koilors.fromCSS(e.target.style.backgroundColor), workingSpace.value));
         selectedColor.value = Koilors.fromCSS(e.target.style.backgroundColor);
     } catch {
         let propertyName = e.target.style.backgroundColor.slice(4, -1);
         let computed = window.getComputedStyle(e.target).getPropertyValue(propertyName);
-        // selectedColor.value = new Color(computed);
-        // console.log(Koilors.fromCSS(computed));
-        // console.log(colorToString(Koilors.fromCSS(computed), workingSpace.value));
         selectedColor.value = Koilors.fromCSS(computed);
     }
 }
@@ -292,7 +273,6 @@ function selectBackgroundColor(e) {
 var isSnackbarActive = false;
 var snackbarTimeoutId = -1;
 function showSnackbar(msg) {
-    // console.log(msg);
     snackbar.innerText = msg;
     if (isSnackbarActive) {
         clearTimeout(snackbarTimeoutId);
@@ -543,8 +523,6 @@ function randomizeAngles() {
 }
 
 function randomizeLightnessRange() {
-    // startL.value = Math.floor(100.0 * ((Math.random() * Math.random() * Math.random())));
-    // endL.value = Math.floor(100.0 * (1.0 - (Math.random() * Math.random() * Math.random())));
     let lerp = function (a, b, t) {
         return a * (1.0 - t) + b * t;
     };

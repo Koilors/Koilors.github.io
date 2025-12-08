@@ -56,6 +56,11 @@ export class Koilors {
         return this.#color.to("oklab").display();
     }
 
+    getShade(shade) {
+        let hsl = this.okhsl;
+        return Koilors.fromOkhsl(hsl.h, hsl.s, shade);
+    }
+
     static fromCSS(css) {
         let output = new Koilors();
         output.#color = new Color(css);
