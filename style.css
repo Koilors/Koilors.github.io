@@ -130,6 +130,7 @@ header>button {
     user-select: none;
     vertical-align: middle;
     background-color: transparent;
+    color: var(--on-surface);
 }
 
 header>button:hover {
@@ -425,6 +426,7 @@ button.transparent {
     border-radius: 50%;
     user-select: none;
     vertical-align: middle;
+    color: var(--on-surface);
 }
 
 button.transparent:hover {
